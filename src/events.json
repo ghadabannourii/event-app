@@ -1,0 +1,85 @@
+{
+  "events": [
+    {
+      "name": "Festival international de Carthage",
+      "description": "Le lorem ipsum est, en imprimerie, une suite de mots sans signification utilisée à titre provisoire pour calibrer une mise en page",
+      "img": "/images/event1.jpg",
+      "price": 30,
+      "nbTickets": 10,
+      "nbParticipants": 10,
+      "like": false,
+      "id": "VAuINkoAtjk"
+    },
+    {
+      "name": "Festival de la médina de Tunis",
+      "description": "Le lorem ipsum est, en imprimerie, une suite de mots sans signification utilisée à titre provisoire pour calibrer une mise en page",
+      "img": "/images/event2.jpg",
+      "price": 15,
+      "nbTickets": 4,
+      "nbParticipants": 30,
+      "like": false,
+      "id": "kyn5euMW9go"
+    },
+    {
+      "name": "Journées cinématographiques de Carthage (JCC)",
+      "description": "Le lorem ipsum est, en imprimerie, une suite de mots sans signification utilisée à titre provisoire pour calibrer une mise en page",
+      "img": "/images/event3.jpg",
+      "price": 7,
+      "nbTickets": 20,
+      "nbParticipants": 35,
+      "like": false,
+      "id": "LrokPa4B9J8"
+    },
+    {
+      "name": "Journées cinématographiques de Carthage (JCC)",
+      "description": "Le lorem ipsum est, en imprimerie, une suite de mots sans signification utilisée à titre provisoire pour calibrer une mise en page",
+      "img": "/images/placeholder.jpg",
+      "price": 7,
+      "nbTickets": 2,
+      "nbParticipants": 4,
+      "like": false,
+      "id": "v8d0sRNJrQQ"
+    },
+    {
+      "name": "Ted",
+      "description": "ted sppech",
+      "price": "100",
+      "nbTickets": "10",
+      "nbParticipants": 0,
+      "like": false,
+      "img": "/images/ted.jfif",
+      "id": "6-Y7U6ktwCU"
+    },
+    {
+      "name": "coupe de monde",
+      "description": "Coupe de monde 2026",
+      "price": "500",
+      "nbTickets": "10",
+      "nbParticipants": 0,
+      "like": false,
+      "img": "/images/word-cup.png",
+      "id": "ygXtzjpqxMM"
+    },
+    {
+      "name": "IT Event",
+      "description": "It event 123",
+      "price": "20",
+      "nbTickets": 0,
+      "nbParticipants": 0,
+      "like": false,
+      "img": "/images/it.jfif",
+      "id": "rzLVsR1Xh2M"
+    },
+    {
+      "name": "ghjk",
+      "description": "sdfgh",
+      "price": "1",
+      "nbTickets": 0,
+      "nbParticipants": 0,
+      "like": false,
+      "img": "C:\\fakepath\\event3.jpg",
+      "id": "X_wP4LcfIig"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
+}
