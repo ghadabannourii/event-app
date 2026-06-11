@@ -39,6 +39,18 @@ const NavigationBar = () => {
               Events
             </Nav.Link>
 
+            {/* Lien "Favoris" → /favorites */}
+            <Nav.Link
+              as={NavLink}
+              to="/favorites"
+              style={({ isActive }) => ({
+                fontWeight: isActive ? "bold" : "normal",
+                color: isActive ? "#ffc107" : "white",
+              })}
+            >
+              ⭐ Favoris
+            </Nav.Link>
+
             {/* ── Q8 : Bouton Add New Event → /events/add ─────── */}
             {/* Déclenche useNavigate pour accéder au formulaire AddEvent */}
             <Button

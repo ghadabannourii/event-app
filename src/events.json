@@ -33,7 +33,7 @@
     {
       "name": "Journées cinématographiques de Carthage (JCC)",
       "description": "Le lorem ipsum est, en imprimerie, une suite de mots sans signification utilisée à titre provisoire pour calibrer une mise en page",
-      "img": "/images/placeholder.jpg",
+      "img": "/images/it.jfif",
       "price": 7,
       "nbTickets": 2,
       "nbParticipants": 4,
@@ -77,7 +77,7 @@
       "nbTickets": 0,
       "nbParticipants": 0,
       "like": false,
-      "img": "C:\\fakepath\\event3.jpg",
+      "img": "/images/event3.jpg",
       "id": "X_wP4LcfIig"
     }
   ],

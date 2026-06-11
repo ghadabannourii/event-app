@@ -13,7 +13,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Card, Button, Badge } from "react-bootstrap";
 
 // ── [AXIOS] Import du service pour la suppression ────────────
-//import { deleteEvent } from "../service/api";
+// import { deleteEvent } from "../service/api";
 
 // ── [ZUSTAND] Import des stores ──────────────────────────────
 import useEventStore    from "../ZustandStores/useEventStore";
@@ -31,10 +31,22 @@ const Event = ({ event, index, bookEvent, toggleLike, onDeleted }) => {
   // ── [ZUSTAND] Actions favoris depuis le store ─────────────
   const addFavorite    = useFavoriteStore((state) => state.addFavorite);
   const removeFavorite = useFavoriteStore((state) => state.removeFavorite);
-  const isFavorite     = useFavoriteStore((state) => state.isFavorite);
+
+  // ✅ CORRECTION : Réactivité du bouton Favoris
+  // ─────────────────────────────────────────────────────────
+  // Avant (bugué) :
+  //   const isFavorite = useFavoriteStore((state) => state.isFavorite);
+  //   → isFavorite est une fonction via get() → non réactive → pas de re-render
+  //
+  // Après (corrigé) :
+  //   On sélectionne le tableau `favorites` directement (valeur réactive)
+  //   React re-rend le composant automatiquement quand favorites change
+  const favorites = useFavoriteStore((state) => state.favorites);
+  const isFav     = favorites.some((f) => f.id === event.id);
 
   // ── [ZUSTAND] Action suppression depuis le store ──────────
   const deleteEventObject = useEventStore((state) => state.deleteEventObject);
+
 
   // ════════════════════════════════════════════════════════════
   // MÉTHODE ① — Suppression avec AXIOS (méthode originale)
@@ -78,18 +90,21 @@ const Event = ({ event, index, bookEvent, toggleLike, onDeleted }) => {
   };
   // ════════════════════════════════════════════════════════════
 
-  // ── Q6 : Toggle favori ───────────────────────────────────
+
+  // ── Q6 : Toggle favori ────────────────────────────────────
   // Si déjà favori → retire | Sinon → ajoute
   const handleToggleFavorite = () => {
-    if (isFavorite(event.id)) {
+    if (isFav) {
       removeFavorite(event.id);
     } else {
       addFavorite(event);
     }
   };
 
+
   return (
     <Card className="h-100 shadow border-0 rounded-3 overflow-hidden">
+
       {/* Image de l'événement — sold_out si plus de tickets */}
       <Card.Img
         variant="top"
@@ -128,48 +143,76 @@ const Event = ({ event, index, bookEvent, toggleLike, onDeleted }) => {
         <div className="mt-auto d-flex gap-2 flex-wrap">
 
           {/* ── Q6 : Bouton Ajouter/Retirer des Favoris ─────── */}
-          {/* Le texte change dynamiquement selon isFavorite() */}
+          {/* ✅ CORRECTION BUG :
+              AVANT (bugué) : onClick={handleToggleFavorite}
+              → Pas de stopPropagation → le clic remontait (event bubbling)
+                jusqu'au <Link> dans Card.Title → navigation parasite vers
+                /events/:id au lieu d'exécuter handleToggleFavorite
+              APRÈS (corrigé) : onClick={(e) => { e.stopPropagation(); ... }}
+              → stopPropagation bloque la remontée du clic
+              → handleToggleFavorite s'exécute correctement SANS navigation */}
           <Button
-            variant={isFavorite(event.id) ? "warning" : "outline-warning"}
+            variant={isFav ? "warning" : "outline-warning"}
             size="sm"
-            onClick={handleToggleFavorite}
+            onClick={(e) => {
+              e.stopPropagation();
+              handleToggleFavorite();
+            }}
           >
-            {isFavorite(event.id) ? "⭐ Retirer des Favoris" : "☆ Ajouter aux Favoris"}
+            {isFav ? "⭐ Retirer des Favoris" : "☆ Ajouter aux Favoris"}
           </Button>
 
           {/* Like / Dislike */}
+          {/* ✅ stopPropagation pour cohérence — empêche toute navigation parasite */}
           <Button
             variant={event.like ? "danger" : "outline-primary"}
             size="sm"
-            onClick={() => toggleLike(index)}
+            onClick={(e) => {
+              e.stopPropagation();
+              toggleLike(index);
+            }}
           >
             {event.like ? "👎 Dislike" : "👍 Like"}
           </Button>
 
           {/* Réservation — désactivé si plus de tickets */}
+          {/* ✅ stopPropagation pour cohérence — empêche toute navigation parasite */}
           <Button
             variant="primary"
             size="sm"
             disabled={event.nbTickets === 0}
-            onClick={() => bookEvent(index)}
+            onClick={(e) => {
+              e.stopPropagation();
+              bookEvent(index);
+            }}
           >
             🎟 Book
           </Button>
 
           {/* ── Q5 : Bouton Update → /events/update/:id ─────── */}
+          {/* ✅ e.stopPropagation() empêche la propagation vers le <Link> */}
           <Button
+            type="button"
             variant="warning"
             size="sm"
-            onClick={() => navigate(`/events/update/${event.id}`)}
+            onClick={(e) => {
+              e.stopPropagation();
+              navigate(`/events/update/${event.id}`);
+            }}
           >
             Update
           </Button>
 
           {/* ── Q4 : Bouton Delete → handleDelete ───────────── */}
+          {/* ✅ e.stopPropagation() empêche la propagation vers le <Link> */}
           <Button
+            type="button"
             variant="danger"
             size="sm"
-            onClick={handleDelete}
+            onClick={(e) => {
+              e.stopPropagation();
+              handleDelete();
+            }}
           >
             Delete
           </Button>
